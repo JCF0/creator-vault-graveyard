@@ -4,14 +4,19 @@
 
 Creator Vault is a Solana program that enables creators to wrap fungible SPL tokens into voucher NFTs that can later be redeemed 1:1 for the underlying tokens.
 
-It demonstrates a hybrid token–NFT pattern:
+It demonstrates a hybrid token–NFT primitive:
 
 - Deposit SPL tokens into a vault
-- Mint a voucher NFT representing the deposited amount
+- Mint a voucher NFT representing the deposit
 - Burn the voucher NFT to redeem the exact underlying tokens
-- Prevent double-redeem and cross-vault misuse
+- Enforce vault binding to prevent misuse
 
-This pattern enables OTC-style liquidity, composability, and tokenized claims backed by locked assets.
+This pattern enables: 
+
+- OTC-style liquidity
+- Transferable tokenized claims
+- Composable NFT-backed financial primitives
+- Locked-asset-backed collectibles
 
 Built for the **Solana Graveyard Hack – DRiP Track**.
 
@@ -35,15 +40,15 @@ Built for the **Solana Graveyard Hack – DRiP Track**.
 Creates a PDA-backed vault for a specific SPL mint.
 
 ### 2️⃣ Deposit & Mint Voucher
-- User deposits SPL tokens into the vault’s canonical ATA
-- Program mints a voucher NFT representing the deposit
-- Voucher metadata encodes vault association
+- User deposits SPL tokens into the canonical vault ATA
+- Program mints a voucher NFT
+- Voucher metadata binds NFT to vault + mint
 
 ### 3️⃣ Burn & Redeem
 - User burns voucher NFT
-- Program transfers exact underlying tokens back to user
-- Double redeem is prevented
-- Cross-vault redeem is prevented
+- Program transfers exact underlying tokens back
+- Double-redeem is impossible
+- Cross-vault redemption is impossible
 
 ---
 
@@ -51,7 +56,7 @@ Creates a PDA-backed vault for a specific SPL mint.
 
 - PDA-based vault authority
 - Canonical vault ATA enforcement
-- Strict mint matching
+- Strict SPL mint validation
 - Single-use voucher burn logic
 - Double-redeem protection
 - Devnet-tested smoke suite
@@ -77,49 +82,48 @@ Cargo.toml
 
 ## Running Tests (Devnet)
 
-Make sure your Solana CLI is pointed to devnet:
+Set cluster:
 
 ```bash
 solana config set --url https://api.devnet.solana.com
 ```
 
-Ensure you have devnet SOL:
+Airdrop:
 ```bash
 solana airdrop 2
 ```
 
-Then run:
+Build + deploy:
 ```bash
 anchor build
 anchor deploy --provider.cluster devnet
 npm test
 ```
 
-All smoke tests pass:
-- init
-- deposit + mint voucher
-- burn + redeem
-- double-redeem fails
+Smoke tests cover:
+- Vault initialization
+- Deposit + mint
+- Burn + redeem
+- Double-redeem failure
 
 ---
 
 ## What This Demonstrates
 
-This project showcases:
 - Anchor 0.32 program architecture
-- SPL token CPI usage
+- SPL token CPI integration
 - PDA-based vault design
 - NFT-based token claim mechanics
-- Devnet-tested hybrid asset logic
+- Devnet-validated hybrid asset primitive
 
 ---
 
 ## Future Extensions
-- Allowlist-based mint control
-- Multiple vault tiers
-- On-chain royalty logic
-- Marketplace-compatible voucher NFTs
-- Composable OTC primitives
+- Allowlist mint control
+- Tiered vault logic
+- Royalty-enabled vouchers
+- Marketplace-compatible claim NFTs
+- OTC-style composable financial instruments
 
 ---
 
